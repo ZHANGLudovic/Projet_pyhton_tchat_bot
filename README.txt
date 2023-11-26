@@ -2,6 +2,10 @@
 Introduction
 Ce projet comprend plusieurs programmes visant à analyser les discours présidentiels. Les programmes inclus fournissent des fonctionnalités telles que le nettoyage des discours, le calcul du score TF-IDF, et l'analyse de certains aspects spécifiques des discours.
 
+#Information
+Il existe un fichier pour les fonctions on sont stocké toutes les fonctions nommée 'function' et un fichier 'main' contenant le programme principale.
+
+
 ##Liste des programmes
 'list_of_files': Récupère la liste des fichiers dans un répertoire avec une extension donnée.
 'extraire_les_noms': Extrait les noms des présidents à partir des noms de fichiers de discours.
