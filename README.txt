@@ -1,8 +1,8 @@
-README
+#README
 Introduction
 Ce projet comprend plusieurs programmes visant à analyser les discours présidentiels. Les programmes inclus fournissent des fonctionnalités telles que le nettoyage des discours, le calcul du score TF-IDF, et l'analyse de certains aspects spécifiques des discours.
 
-Liste des programmes
+##Liste des programmes
 'list_of_files': Récupère la liste des fichiers dans un répertoire avec une extension donnée.
 'extraire_les_noms': Extrait les noms des présidents à partir des noms de fichiers de discours.
 'supprime_doublons': Supprime les doublons lorsqu'il y a plussieurs fois le même nom du présidents
@@ -36,4 +36,4 @@ Pour indiquer le premier président à parler du climat et/ou de l’écologie, 
 Pour le(s) mot(s) que tous les présidents ont évoqués, on parcours la matrice tf-idf et on affiche les mots toujours dans all_words où son score tf-idf n'a aucun zero.
 
 
-Lien Github: https://github.com/ZHANGLudovic/Projet_pyhton_tchat_bot
+#Lien Github: https://github.com/ZHANGLudovic/Projet_pyhton_tchat_bot
