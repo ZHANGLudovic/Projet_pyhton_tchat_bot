@@ -2,7 +2,7 @@
 Introduction
 Ce projet comprend plusieurs programmes visant à analyser les discours présidentiels. Les programmes inclus fournissent des fonctionnalités telles que le nettoyage des discours, le calcul du score TF-IDF, et l'analyse de certains aspects spécifiques des discours.
 
-# Groupe: ZHANG Ludovic
+# Groupe: ZHANG Ludovic / BOUSSOURA Rayane
 
 #Information
 Il existe un fichier pour les fonctions on sont stocké toutes les fonctions nommée 'function' et un fichier 'main' contenant le programme principale.
