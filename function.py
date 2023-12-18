@@ -153,3 +153,171 @@ def tf_IDF(directory):
         lst_aux = []  # Réinitialisation de la liste auxiliaire pour le prochain terme
     return tfidf_matrix 
 
+# Fonction de tokenisation pour diviser un texte en liste de mots
+def tokenisation(txt):
+    nex_txt = ""  # Chaîne de caractères pour stocker le texte traité
+    aux_txt = ""  # Chaîne de caractères auxiliaire pour construire chaque mot
+    lst = []      # Liste pour stocker les mots extraits du texte
+
+    # Parcours du texte pour créer une version modifiée avec suppression de certains caractères
+    for i in range(len(txt)):
+        nex_txt += cancel_char_and_majuscule(txt[i], txt[i-1])
+
+    # Parcours de la version modifiée pour extraire les mots
+    for i in range(len(nex_txt)):
+        if nex_txt[i] != " ":
+            aux_txt += nex_txt[i]
+        elif aux_txt:
+            lst.append(aux_txt)
+            aux_txt = ""
+
+    return lst
+
+
+# Fonction pour obtenir l'intersection de deux listes
+def intersection(lst, repertoire):
+    all_words = recupere_les_termes(repertoire)
+    new_lst = []
+
+    # Parcours de la liste fournie en paramètre
+    for i in range(len(lst)):
+        if lst[i] in all_words:
+            new_lst.append(lst[i])
+
+    return new_lst
+
+
+# Fonction pour calculer le vecteur TF-IDF d'un texte dans un répertoire donné
+def vecteur_tf_idf(txt, repertoire):
+    vecteur_tf_idf = []  # Liste pour stocker les valeurs TF-IDF
+    all_words = recupere_les_termes(repertoire)
+    dic = {}             # Dictionnaire pour stocker les fréquences des termes
+    lst_intersection = intersection(tokenisation(txt), repertoire)
+    dico_tf = tf(txt)
+    dic_idf = IDF(repertoire)
+    var_aux = 0
+
+    # Initialisation du dictionnaire avec les termes présents dans le texte
+    for i in range(len(all_words)):
+        if all_words[i] not in lst_intersection:
+            dic[all_words[i]] = 0
+        else:
+            dic[all_words[i]] = dico_tf[all_words[i]] / len(tokenisation(txt))
+
+    # Calcul du vecteur TF-IDF pour chaque terme
+    for i in range(len(all_words)):
+        var_aux = dic[all_words[i]] * dic_idf[all_words[i]]
+        vecteur_tf_idf.append((var_aux))
+
+    return vecteur_tf_idf
+
+
+# Fonction pour calculer la norme d'un vecteur
+def norme(vecteur):
+    sum = 0
+
+    # Parcours des éléments du vecteur et calcul de la somme des carrés
+    for el in vecteur:
+        sum += el ** 2
+
+    return sqrt(sum)
+
+
+# Fonction pour calculer le produit scalaire entre deux vecteurs
+def produit_scalaire(lst, lst_1):
+    produit_scalaire_result = 0
+
+    # Parcours des éléments des deux listes et calcul du produit scalaire
+    for i in range(len(lst)):
+        produit_scalaire_result += lst[i] * lst_1[i]
+
+    return produit_scalaire_result
+
+
+# Fonction pour calculer la similarité cosinus entre deux vecteurs
+def similarite_cosinus(lst, lst_1):
+    produit = produit_scalaire(lst, lst_1)
+    norme_1 = norme(lst)
+    norme_2 = norme(lst_1)
+
+    # Vérification pour éviter une division par zéro
+    if norme_2 != 0 and norme_1 != 0:
+        return produit / (norme_1 * norme_2)
+
+    return 0
+
+
+# Fonction pour trouver le document le plus pertinent par rapport à une question
+def plus_pertinent(matrice_tf_idf, lst_question, directory):
+    lst = list_of_files(directory, ".txt")
+    lst_aux = []
+    lst_aux_2 = []
+    comparateur = 0
+    idx = 0
+
+    # Parcours des colonnes de la matrice TF-IDF pour chaque document
+    for i in range(8):
+        for j in range(len(matrice_tf_idf)):
+            lst_aux.append(matrice_tf_idf[j][i])
+        lst_aux_2.append(lst_aux)
+        lst_aux = []
+
+    # Comparaison de la similarité cosinus pour trouver le document le plus pertinent
+    for i in range(len(lst_aux_2)):
+        if comparateur < similarite_cosinus(lst_aux_2[i], lst_question):
+            comparateur = similarite_cosinus(lst_aux_2[i], lst_question)
+            idx = i
+
+    return lst[idx]
+
+
+# Fonction pour trouver le terme avec le plus grand TF-IDF dans un vecteur
+def plus_grand_tf_idf(lst, directory):
+    all_words = recupere_les_termes(directory)
+    comparateur = lst[0]
+    idx = 0
+
+    # Parcours de la liste pour trouver le terme avec le plus grand TF-IDF
+    for i in range(len(lst)):
+        if lst[i] > comparateur:
+            comparateur = lst[i]
+            idx = i
+
+    return all_words[idx]
+
+
+# Fonction pour trouver la première chaîne qui contient un mot spécifié
+def chaine_contient_mot(mot, lst):
+    for i in range(len(lst)):
+        if mot in lst[i]:
+            return lst[i]
+
+
+# Fonction pour fournir une réponse à une question à partir de deux répertoires et d'une liste de noms de fichiers
+def reponse(directory_1, directory_2, question, tfidf_lst, files_names):
+    lst = list_of_files(directory_1, ".txt")
+    fichier = plus_pertient(tfidf_lst, vecteur_tf_idf(question, directory_1), directory_1)
+    mot = plus_grand_tf_idf(vecteur_tf_idf(question, directory_1), directory_1)
+
+    # Recherche du fichier correspondant au document le plus pertinent
+    for el in lst:
+        if el == fichier:
+            with open(directory_2 + str(el), 'r', encoding="utf-8") as f1:
+                lst = f1.readlines()
+                return chaine_contient_mot(mot, lst)
+
+
+# Fonction pour mettre en page la réponse en fonction du type de question
+def mise_en_page(question):
+    question_starters = {
+        "Comment": "Après analyse, ",   # Mise en page pour les questions commençant par "Comment"
+        "Pourquoi": "Car, ",            # Mise en page pour les questions commençant par "Pourquoi"
+        "Peux-tu": "Oui, bien sûr! "     # Mise en page pour les questions commençant par "Peux-tu"
+    }
+
+    # Parcours des déclencheurs de question et ajout de la mise en page correspondante
+    for key, values in question_starters.items():
+        if key in question:
+            return values
+
+    return "On peut dire"   # Mise en page par défaut
