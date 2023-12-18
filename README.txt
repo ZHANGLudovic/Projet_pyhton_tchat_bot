@@ -19,7 +19,17 @@ Il existe un fichier pour les fonctions on sont stocké toutes les fonctions nom
 'recupere_les_termes': Fonction auxiliaire qui va récupérer tous les termes d'un dossier sans doublons pour IDF
 'idf': une fonction qui prend en paramètre le répertoire où se trouve l’ensemble des fichiers du corpus et qui retourne un dictionnaire associant à chaque mot son score IDF
 'tf-idf' : une fonction qui prend en paramètre le répertoire où se trouvent les fichiers à analyser et qui retourne au minimum la matrice TF-IDF.
-
+'tokenisatio':une fonction qui prend en paramètre une chaine et qui retourne la liste des mots de la chaine.
+'intersection': une fonction qui prend en parametre une liste et un repertoire et renvoie une liste contenant les mots de la liste contenue dans le dossier
+'vecteur_tf_idf': une fonction qui prend en parametre une chaine de caractere et un repertoire qui renvoie une liste avec le score tf-idf de la liste représente par la fonction intersection
+'norme': prends une liste en parametre et renvoie la norme de c'est element
+'produit_scalaire': prends 2 listes en parametre et renvoie le produit scalaire des elements des 2 listes
+'similarite_cosinus':  prends 2 listes en parametre et renvoie la similarité cosinus des elements des 2 listes
+'plus_pertient': une fonction qui prends la matrice tf-idf, la lst des mots à la fois dans la question et le dossier et le repertoire et renvoie le dossier avec le score tf-idf le plus élever. 
+'plus_grand_tf_idf': Une fonction prends une liste et un répertoire en parametre et renvoie le mot avec le score tf-idf le plus élevé
+'chaine_contient_mot': une fonction qui prends en parametre un mot est une liste et renvoie la liste contenant le mot.
+'reponse': Prends en parametre 2 repertoires, la question, la matrice tf-idf et la liste des fichiers en parametre et reevoie la premier phrase du fichier trouver contenant le mot avec le score le plus élevé.
+'mise_en_page': fonction qui prend la question en parametre en vérifie si certain mots sont présent afin de débuter la phrase d'une meilleur forme.
 
 ##Partie pratique
 On commence par récupéré les noms des fichiers avec 'list_of_file' dans une liste.
@@ -41,5 +51,8 @@ Pour indiquer le premier président à parler du climat et/ou de l’écologie, 
 
 Pour le(s) mot(s) que tous les présidents ont évoqués, on parcours la matrice tf-idf et on affiche les mots toujours dans all_words où son score tf-idf n'a aucun zero.
 
+L'utilisation d'une boucle while permet à l'utilisateur d'utiliser à volonter le programme et le else est utlisé pour faire une saisis sécurisé. Il est possible de sortir de la boucle en tapant sur 8 ce qui permet a notre variable booléen de passer Flase.
+
+Enfin la dernier fonctionnalité permet de chercher la phrase dans le fichier le plus pertinent du dossier en cherchant où le score tf-idf du mot le plus élevé de la question contenant ce mot.
 
 #Lien Github: https://github.com/ZHANGLudovic/Projet_pyhton_tchat_bot
