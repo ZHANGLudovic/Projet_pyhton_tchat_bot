@@ -113,25 +113,33 @@ def recupere_les_termes(repertoire): #Cette fonction prend en entrée le chemin 
     return tous_les_termes
     
 def IDF(repertoire): # Cette fonction prend en entrée le chemin d'un répertoire et renvoie un dictionnaire des valeurs d'IDF (Inverse Document Frequency) pour chaque terme dans les fichiers du répertoire.
-    dic_idf = {}
-    frequence_doc = {}# Dictionnaire pour stocker la fréquence de chaque terme dans les documents
-    lst = list_of_files(repertoire, ".txt")
-    texte = ""
-    lst_termes = recupere_les_termes(repertoire) # Liste des termes uniques dans les documents
-    for el in lst_termes:   # Initialisation de la fréquence de chaque terme à 0
-        frequence_doc[el] = 0
-    for i in range(len(lst)):  # Parcours de chaque fichier dans le répertoire
-        with open(repertoire + "/" + str(lst[i]), 'r') as f1: 
-            f_text = f1.readline()
-        texte += f_text + " " # Concaténation du texte du fichier au texte global
-        doc = tf(texte)  # Calcul des fréquences des termes dans le texte global
-        for el in doc.keys():
-            if el in frequence_doc.keys():
-                frequence_doc[el] += 1 # Mise à jour de la fréquence de chaque terme
-    for key, values in frequence_doc.items():     # Calcul des valeurs d'IDF pour chaque terme
-        dic_idf[key] = math.log10((len(lst) / values)+1)
-    return dic_idf
+    # on va créer une liste qui va contenir tous les mots présents dans les textes du répertoire en un seul exemplaire
+    contenu = ""
+    liste_contenu = []
+    for i in files_names:
+        with open(directory + '/' + i, 'r', encoding="utf-8") as fichier_IDF:
+            contenu = fichier_IDF.read()
+            contenu = contenu.split()
+            liste_contenu += contenu
+        set_contenu = set(liste_contenu)
+    dico = {}
 
+    # remplacer liste contenue par les mots dans le dico
+
+    # parcours la liste de mots et compte le nombre d'occurence pour ensuite calculer le score IDF
+    for mot in set_contenu:
+        occurence = 1
+        for i in files_names:
+            with open('./{}/{}'.format('cleaned', i), 'r',encoding="utf-8") as fichier_IDF:
+                contenu = fichier_IDF.read()
+                contenu = contenu.split()
+                if mot in contenu:
+                    occurence += 1
+        if occurence != 0:
+            calcul_idf = math.log10((len(files_names) / occurence)+1)
+            dico[mot] = calcul_idf
+
+    return dico
 
 
 def tf_IDF(directory):
