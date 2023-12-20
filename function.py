@@ -113,6 +113,8 @@ def recupere_les_termes(repertoire): #Cette fonction prend en entrée le chemin 
     return tous_les_termes
     
 def IDF(repertoire): # Cette fonction prend en entrée le chemin d'un répertoire et renvoie un dictionnaire des valeurs d'IDF (Inverse Document Frequency) pour chaque terme dans les fichiers du répertoire.
+    directory = './{}'.format(repertoire)
+    files_names = list_of_files(directory, "txt")
     # on va créer une liste qui va contenir tous les mots présents dans les textes du répertoire en un seul exemplaire
     contenu = ""
     liste_contenu = []
