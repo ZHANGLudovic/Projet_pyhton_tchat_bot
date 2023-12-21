@@ -44,7 +44,7 @@ if __name__ == '__main__':
                 comparateur = tfidf_lst[0]
                 idx = 0
                 for j in range (1,len(all_words)):
-                    if tfidf_lst[j] < comparateur and all_words[j] not in lst_tfidf_moins_important and tfidf_lst[j]!= lst_tfidf_non_important :
+                    if tfidf_lst[j] > comparateur and all_words[j] not in lst_tfidf_moins_important and tfidf_lst[j]!= lst_tfidf_non_important :
                         comparateur = tfidf_lst[j]
                         idx = j
                 lst_tfidf_moins_important.append(all_words[idx])
