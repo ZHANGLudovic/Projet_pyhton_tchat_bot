@@ -177,7 +177,7 @@ def tokenisation(txt):
     for i in range(len(nex_txt)):
         if nex_txt[i] != " ":
             aux_txt += nex_txt[i]
-        elif aux_txt:
+        elif aux_txt != "":
             lst.append(aux_txt)
             aux_txt = ""
 
