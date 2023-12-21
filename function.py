@@ -268,7 +268,7 @@ def plus_pertinent(matrice_tf_idf, lst_question, directory):
     # Parcours des colonnes de la matrice TF-IDF pour chaque document
     for i in range(8):
         for j in range(len(matrice_tf_idf)):
-            lst_aux.append(matrice_tf_idf[j][i])
+            lst_aux.append(matrice_tf_idf[j][i]) #pour chaque mot 8 texte, donc selection du bon texte
         lst_aux_2.append(lst_aux)
         lst_aux = []
 
